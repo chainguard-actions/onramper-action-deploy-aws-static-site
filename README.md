@@ -9,6 +9,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
 | v1.0.0 | [`v1.0.0`](https://github.com/chainguard-actions/onramper-action-deploy-aws-static-site/tree/v1.0.0) | [`2423fbd`](https://github.com/onramper/action-deploy-aws-static-site/commit/2423fbd9123193e7c2ca304ffacdbc1ba3e74b59) |
+| v2.0.0 | [`v2.0.0`](https://github.com/chainguard-actions/onramper-action-deploy-aws-static-site/tree/v2.0.0) | [`1842a77`](https://github.com/onramper/action-deploy-aws-static-site/commit/1842a77e940a880b38f82ae3fa49a035b7d7b990) |
 
 ## Privacy
 
