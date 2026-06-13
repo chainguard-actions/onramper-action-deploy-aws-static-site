@@ -1,14 +1,24 @@
-# onramper/action-deploy-aws-static-site
+<h1 align="center">
+  Deploy static site to AWS
+  <br>
+</h1>
 
-Batteries-included Github action that deploys a static site to AWS Cloudfront, taking care of DNS, SSL certs and S3 buckets
+<h4 align="center">Batteries-included Github action that deploys a static site to AWS Cloudfront, taking care of DNS, SSL certs and S3 buckets</h4>
 
-Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/onramper/action-deploy-aws-static-site](https://github.com/onramper/action-deploy-aws-static-site).
+<p align="center">
+  <img src="./images/flowchart.png">
+</p>
 
-## Versions
-
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| v1.0.0 | [`v1.0.0`](https://github.com/chainguard-actions/onramper-action-deploy-aws-static-site/tree/v1.0.0) | [`2423fbd`](https://github.com/onramper/action-deploy-aws-static-site/commit/2423fbd9123193e7c2ca304ffacdbc1ba3e74b59) |
+## Usage
+```yaml
+- name: Deploy to AWS
+  uses: onramper/action-deploy-aws-static-site@v1
+  with:
+    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    domain: subdomain.example.com
+    publish_dir: ./public
+```
 
 ## Privacy
 
