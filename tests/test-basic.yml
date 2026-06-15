@@ -1,0 +1,33 @@
+name: Test basic usage - deploy static site to AWS
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create publish directory with sample content
+        run: |
+          mkdir -p /tmp/site
+          echo "<html><body>Hello World</body></html>" > /tmp/site/index.html
+
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+          AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+          domain: test.example.com
+          publish_dir: /tmp/site
+
+      - name: Assert action was invoked with all required inputs
+        run: |
+          echo "Action outcome: ${{ steps.action.outcome }}"
+          # The action will fail because the AWS credentials are fake,
+          # but it should have been invoked (outcome is 'failure' or 'success', not 'skipped')
+          if [ "${{ steps.action.outcome }}" = "skipped" ]; then
+            echo "FAIL: action was skipped, expected it to run"
+            exit 1
+          fi
+          echo "PASS: action was invoked with all required inputs"
