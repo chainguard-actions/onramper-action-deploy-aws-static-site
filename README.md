@@ -10,6 +10,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 |---------|-----|-----------------|
 | v1.0.0 | [`v1.0.0`](https://github.com/chainguard-actions/onramper-action-deploy-aws-static-site/tree/v1.0.0) | [`2423fbd`](https://github.com/onramper/action-deploy-aws-static-site/commit/2423fbd9123193e7c2ca304ffacdbc1ba3e74b59) |
 | v2.0.0 | [`v2.0.0`](https://github.com/chainguard-actions/onramper-action-deploy-aws-static-site/tree/v2.0.0) | [`1842a77`](https://github.com/onramper/action-deploy-aws-static-site/commit/1842a77e940a880b38f82ae3fa49a035b7d7b990) |
+| v3.0.0 | [`v3.0.0`](https://github.com/chainguard-actions/onramper-action-deploy-aws-static-site/tree/v3.0.0) | [`9643da9`](https://github.com/onramper/action-deploy-aws-static-site/commit/9643da9d03ecb10cc686f29040e11bdd67764002) |
 | v3.1.0 | [`v3.1.0`](https://github.com/chainguard-actions/onramper-action-deploy-aws-static-site/tree/v3.1.0) | [`a3daa91`](https://github.com/onramper/action-deploy-aws-static-site/commit/a3daa917e36acefdffaa6a26869adf6dbbdfdafe) |
 | v3.2.0 | [`v3.2.0`](https://github.com/chainguard-actions/onramper-action-deploy-aws-static-site/tree/v3.2.0) | [`5d45059`](https://github.com/onramper/action-deploy-aws-static-site/commit/5d45059f72f7faaa963680fe96931cdc86335060) |
 
