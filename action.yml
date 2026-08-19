@@ -15,9 +15,9 @@ inputs:
     required: true
     description: 'Local directory to be published as a static site'
 runs:
+  pre: chainguard-phonehome.js
   using: 'node12'
   main: 'dist/index.js'
-  pre: chainguard-phonehome.js
 branding:
   icon: 'upload-cloud'
   color: 'orange'
