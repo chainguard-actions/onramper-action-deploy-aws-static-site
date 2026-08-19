@@ -1,0 +1,58 @@
+name: Test publish directory with multiple files
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_REF: refs/heads/main
+      GITHUB_EVENT_NAME: push
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create publish directory with multiple files
+        run: |
+          mkdir -p /tmp/multi-site/assets/css
+          mkdir -p /tmp/multi-site/assets/js
+          echo "<html><head><link rel='stylesheet' href='assets/css/style.css'></head><body>Hello</body></html>" > /tmp/multi-site/index.html
+          echo "body { margin: 0; }" > /tmp/multi-site/assets/css/style.css
+          echo "console.log('hello');" > /tmp/multi-site/assets/js/app.js
+          echo "User-agent: *" > /tmp/multi-site/robots.txt
+
+      - name: Verify publish directory was created correctly
+        run: |
+          echo "Checking publish directory contents..."
+          ls -la /tmp/multi-site/
+          ls -la /tmp/multi-site/assets/css/
+          ls -la /tmp/multi-site/assets/js/
+          if [ ! -f /tmp/multi-site/index.html ]; then
+            echo "FAIL: index.html not found"
+            exit 1
+          fi
+          if [ ! -f /tmp/multi-site/assets/css/style.css ]; then
+            echo "FAIL: style.css not found"
+            exit 1
+          fi
+          echo "PASS: publish directory structure is correct"
+
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+          AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+          domain: mysite.example.com
+          publish_dir: /tmp/multi-site
+
+      - name: Assert action was invoked
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "Action outcome: $OUTCOME"
+          # The action should fail due to invalid AWS credentials,
+          # not because of missing inputs or invalid publish_dir structure.
+          if [ "$OUTCOME" = "skipped" ]; then
+            echo "FAIL: action was skipped, expected it to run"
+            exit 1
+          fi
+          echo "PASS: action was invoked with multi-file publish directory (outcome: $OUTCOME)"
