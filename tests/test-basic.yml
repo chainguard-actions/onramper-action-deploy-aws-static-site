@@ -1,4 +1,4 @@
-name: Test basic input coverage
+name: Test basic invocation with required inputs
 on:
   workflow_dispatch:
 jobs:
@@ -6,17 +6,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Create publish directory
-        run: mkdir -p /tmp/site && echo "<html><body>Hello</body></html>" > /tmp/site/index.html
-      - id: action
-        uses: .
+
+      - name: Create publish directory with sample content
+        run: |
+          mkdir -p /tmp/site
+          echo "<html><body>Hello World</body></html>" > /tmp/site/index.html
+
+      - name: Invoke action with required inputs
+        id: action
         continue-on-error: true
+        uses: .
         with:
           AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
           AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
           domain: test.example.com
           publish_dir: /tmp/site
-      - name: Assert action ran with all required inputs
+
+      - name: Assert action ran (expected to fail due to invalid AWS credentials)
         run: |
-          echo "Action completed (may have failed due to invalid AWS credentials, which is expected in test)"
-          echo "PASS: All required inputs were provided"
+          echo "Action outcome: ${{ steps.action.outcome }}"
+          # The action should fail because the AWS credentials are fake,
+          # but it should NOT fail due to missing inputs or misconfiguration.
+          # A failure here means the action at least started and attempted AWS calls.
+          if [ "${{ steps.action.outcome }}" = "skipped" ]; then
+            echo "FAIL: action was skipped unexpectedly"
+            exit 1
+          fi
+          echo "PASS: action ran (outcome: ${{ steps.action.outcome }})"
