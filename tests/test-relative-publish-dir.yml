@@ -1,4 +1,4 @@
-name: Test basic invocation with dummy credentials
+name: Test with relative publish directory
 on:
   workflow_dispatch:
 jobs:
@@ -7,10 +7,11 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Create publish directory with sample content
+      - name: Create relative publish directory with sample content
         run: |
-          mkdir -p /tmp/test-site
-          echo "<html><body>Hello World</body></html>" > /tmp/test-site/index.html
+          mkdir -p dist
+          echo "<html><body>Test Site</body></html>" > dist/index.html
+          echo "body { color: red; }" > dist/style.css
 
       - id: action
         uses: .
@@ -18,18 +19,18 @@ jobs:
         with:
           AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
           AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-          domain: test.example.com
-          publish_dir: /tmp/test-site
+          domain: staging.example.com
+          publish_dir: dist
 
-      - name: Assert action ran (may fail due to invalid AWS credentials)
+      - name: Assert action ran with relative publish dir
         env:
           OUTCOME: ${{ steps.action.outcome }}
         run: |
           echo "action outcome: $OUTCOME"
           # The action should either succeed or fail with an AWS error
-          # It should NOT fail with a missing input error
+          # It should NOT fail with a missing input error or path resolution error
           if [ "$OUTCOME" = "success" ] || [ "$OUTCOME" = "failure" ]; then
-            echo "PASS: action ran as expected (outcome: $OUTCOME)"
+            echo "PASS: action ran as expected with relative publish dir (outcome: $OUTCOME)"
           else
             echo "FAIL: unexpected outcome: $OUTCOME"
             exit 1

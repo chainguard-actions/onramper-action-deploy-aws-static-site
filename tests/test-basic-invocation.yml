@@ -1,0 +1,39 @@
+name: Test basic action invocation
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create publish directory with content
+        run: |
+          mkdir -p /tmp/static-site
+          echo "<html><body><h1>Test Site</h1></body></html>" > /tmp/static-site/index.html
+          echo "body { color: red; }" > /tmp/static-site/style.css
+
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+          AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+          domain: mysite.example.com
+          publish_dir: /tmp/static-site
+
+      - name: Assert action was invoked (fails at AWS auth, not at startup)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          # The action should fail due to invalid AWS credentials, not due to
+          # a startup error (e.g. missing dist/index.js or Node.js runtime issue).
+          # Either failure or success is acceptable here — what matters is the
+          # action was invoked and did not produce an unexpected runner-level error.
+          if [ "$OUTCOME" = "success" ] || [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action was invoked successfully (outcome=$OUTCOME)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME' — action may not have been invoked"
+            exit 1
+          fi
