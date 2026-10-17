@@ -7,5 +7,10 @@
   "policy_sha": "d636be7e43ef829af6e853da6b3c7566db9f72fe",
   "test_policy_sha": "843adf9e4b8f85d0c08b27b9d0b09dd094b54702",
   "test_agent_version": "2",
-  "harden_agent_version": "2"
+  "harden_agent_version": "2",
+  "node_artifact": {
+    "gcs_uri": "gs://prod-actions-node-artifacts/node-artifacts/onramper/action-deploy-aws-static-site/v2.0.0/sha256-f23af36b3c58caef0da9e8b5fa7c400d38f6695f7dd60f9e9533a51da084ba6c.tar.gz",
+    "sha256": "f23af36b3c58caef0da9e8b5fa7c400d38f6695f7dd60f9e9533a51da084ba6c",
+    "size_bytes": 31723666
+  }
 }
