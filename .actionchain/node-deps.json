@@ -1,9 +1,10 @@
 {
-  "status": "self_contained",
+  "status": "unbundlable",
   "entries": [
     {
       "path": "dist/index.js",
-      "status": "self_contained"
+      "status": "unbundlable",
+      "reason": "runs a node_modules file by path, which bundling cannot inline: node_modules/aws-cdk-lib/index.js"
     }
   ]
 }
